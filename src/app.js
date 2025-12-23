@@ -2,12 +2,7 @@ const express = require('express');
 require('dotenv').config();
 
 // Import middleware
-const {
-  corsMiddleware,
-  requestLogger,
-  notFoundHandler,
-  errorHandler,
-} = require('./middleware');
+const { corsMiddleware, requestLogger, notFoundHandler, errorHandler } = require('./middleware');
 
 // Import routes
 const routes = require('./routes');
@@ -17,13 +12,13 @@ require('./models');
 
 /**
  * Express Application Configuration
- * 
+ *
  * This file now ONLY:
  * 1. Creates Express app
  * 2. Applies middleware (imported)
  * 3. Mounts routes (imported)
  * 4. Applies error handlers (imported)
- * 
+ *
  * All logic is in separate files!
  */
 
@@ -31,7 +26,7 @@ const app = express();
 
 /**
  * Apply Middleware
- * 
+ *
  * Order matters! Middleware executes top-to-bottom
  */
 
@@ -47,7 +42,7 @@ app.use(requestLogger);
 
 /**
  * Mount Routes
- * 
+ *
  * All routes are defined in routes/index.js
  * This keeps app.js clean and focused
  */
@@ -55,7 +50,7 @@ app.use('/', routes);
 
 /**
  * Error Handling Middleware
- * 
+ *
  * Must be AFTER all routes!
  * Order: 404 handler → Error handler
  */

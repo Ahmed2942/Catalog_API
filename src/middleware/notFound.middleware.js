@@ -2,13 +2,13 @@ const logger = require('../config/logger');
 
 /**
  * 404 Not Found Middleware
- * 
+ *
  * Why separate file?
  * - Keeps error handling logic organized
  * - Easy to customize 404 response
  * - Can add analytics for missing routes
  * - Clear separation from other error handlers
- * 
+ *
  * When it runs:
  * - After all routes have been checked
  * - Only if no route matched the request
@@ -38,7 +38,7 @@ const notFoundHandler = (req, res, next) => {
  * - Detect API misuse
  * - Find typos in frontend code
  * - Security: Detect scanning attempts
- * 
+ *
  * Example: Many 404s for /admin might indicate attack
  */
 

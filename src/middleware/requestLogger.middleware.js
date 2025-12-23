@@ -2,13 +2,13 @@ const logger = require('../config/logger');
 
 /**
  * Request Logger Middleware
- * 
+ *
  * Why separate file?
  * - Keeps app.js clean
  * - Easy to modify logging format
  * - Can add more logging logic without cluttering app.js
  * - Reusable in other projects
- * 
+ *
  * What it logs:
  * - HTTP method (GET, POST, etc.)
  * - Request path
@@ -32,7 +32,7 @@ const requestLogger = (req, res, next) => {
 
   res.on('finish', () => {
     const duration = Date.now() - startTime;
-    
+
     logger.info('Request completed', {
       method: req.method,
       path: req.path,
@@ -49,7 +49,7 @@ const requestLogger = (req, res, next) => {
  * - Captures response status code
  * - Measures request duration
  * - Helps identify slow endpoints
- * 
+ *
  * Example log output:
  * {
  *   "level": "info",

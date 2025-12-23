@@ -2,20 +2,20 @@ const logger = require('../config/logger');
 
 /**
  * Global Error Handler Middleware
- * 
+ *
  * Why separate file?
  * - Centralized error handling
  * - Easy to customize error responses
  * - Can add error reporting (Sentry, etc.)
  * - Keeps app.js clean
- * 
+ *
  * Catches:
  * - Errors thrown in routes
  * - Errors from async functions (with express-async-errors)
  * - Database errors
  * - Validation errors
  * - Any unhandled errors
- * 
+ *
  * IMPORTANT: Must have exactly 4 parameters (err, req, res, next)
  * - Express recognizes this signature as error handler
  */
@@ -76,9 +76,9 @@ const errorHandler = (err, req, res, next) => {
  * - Better error messages for clients
  * - Easier debugging
  * - Consistent error format
- * 
+ *
  * Example responses:
- * 
+ *
  * Validation Error:
  * {
  *   "error": "ValidationError",
@@ -87,7 +87,7 @@ const errorHandler = (err, req, res, next) => {
  *     { "field": "sku", "message": "SKU is required" }
  *   ]
  * }
- * 
+ *
  * Duplicate Key:
  * {
  *   "error": "SequelizeUniqueConstraintError",

@@ -3,13 +3,13 @@ const logger = require('./logger');
 
 /**
  * Database Initialization
- * 
+ *
  * Why separate file?
  * - Keeps database.js pure configuration
  * - Initialization logic in one place
  * - Easy to call from server.js
  * - Can be reused in scripts (migrations, seeds)
- * 
+ *
  * What it does:
  * 1. Test database connection (authenticate)
  * 2. Sync models with database
@@ -18,12 +18,12 @@ const logger = require('./logger');
 
 /**
  * Test database connection
- * 
+ *
  * Why authenticate?
  * - Verifies credentials are correct
  * - Checks if database is reachable
  * - Fails fast if connection issues
- * 
+ *
  * @throws {Error} If connection fails
  */
 const authenticateDatabase = async () => {
@@ -43,17 +43,17 @@ const authenticateDatabase = async () => {
 
 /**
  * Synchronize database models
- * 
+ *
  * Why sync?
  * - Creates tables if they don't exist
  * - Updates schema in development (with alter)
  * - Ensures models match database structure
- * 
+ *
  * Options:
  * - alter: true (dev) - Updates existing tables without data loss
  * - alter: false (prod) - Use migrations instead
  * - force: true - DROPS tables (NEVER use in production!)
- * 
+ *
  * @throws {Error} If sync fails
  */
 const syncDatabase = async () => {
@@ -82,12 +82,12 @@ const syncDatabase = async () => {
 
 /**
  * Initialize database (authenticate + sync)
- * 
+ *
  * Why combined function?
  * - Single entry point for database setup
  * - Ensures proper order (authenticate before sync)
  * - Easy to call from server.js
- * 
+ *
  * @returns {Promise<boolean>} True if successful
  * @throws {Error} If initialization fails
  */
@@ -106,7 +106,7 @@ const initializeDatabase = async () => {
 
 /**
  * Close database connection
- * 
+ *
  * Why needed?
  * - Graceful shutdown
  * - Clean up resources

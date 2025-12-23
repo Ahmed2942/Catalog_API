@@ -4,13 +4,13 @@ const logger = require('./config/logger');
 
 /**
  * Server Startup
- * 
+ *
  * Why separate from app.js?
  * - app.js = Express configuration (pure, testable)
  * - server.js = Server lifecycle (startup, shutdown)
  * - Can test app without starting server
  * - Can reuse app in different contexts
- * 
+ *
  * Responsibilities:
  * 1. Initialize database
  * 2. Start HTTP server
@@ -23,7 +23,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 
 /**
  * Start the server
- * 
+ *
  * Steps:
  * 1. Initialize database (authenticate + sync)
  * 2. Start Express server
@@ -59,25 +59,25 @@ const startServer = async () => {
 
 /**
  * Graceful Shutdown
- * 
+ *
  * Why graceful shutdown?
  * - Finish processing current requests
  * - Close database connections properly
  * - Clean up resources
  * - Prevent data corruption
- * 
+ *
  * Handles:
  * - SIGTERM (from Docker, Kubernetes)
  * - SIGINT (Ctrl+C in terminal)
  * - Uncaught exceptions
  * - Unhandled promise rejections
- * 
+ *
  * @param {http.Server} server - HTTP server instance
  */
 const setupGracefulShutdown = (server) => {
   /**
    * Shutdown handler
-   * 
+   *
    * Steps:
    * 1. Stop accepting new requests
    * 2. Finish processing existing requests
@@ -118,12 +118,12 @@ const setupGracefulShutdown = (server) => {
 
   /**
    * Handle uncaught exceptions
-   * 
+   *
    * Why handle?
    * - Log the error before crash
    * - Attempt graceful shutdown
    * - Better than silent crash
-   * 
+   *
    * Note: App should still crash (can't recover from uncaught exception)
    */
   process.on('uncaughtException', (error) => {
@@ -136,7 +136,7 @@ const setupGracefulShutdown = (server) => {
 
   /**
    * Handle unhandled promise rejections
-   * 
+   *
    * Why handle?
    * - Async errors that weren't caught
    * - Log before potential crash
