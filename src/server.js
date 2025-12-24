@@ -5,11 +5,7 @@ const logger = require('./config/logger');
 /**
  * Server Startup
  *
- * Why separate from app.js?
- * - app.js = Express configuration (pure, testable)
- * - server.js = Server lifecycle (startup, shutdown)
- * - Can test app without starting server
- * - Can reuse app in different contexts
+ * Why separate from app.js? -> Can test app without starting server
  *
  * Responsibilities:
  * 1. Initialize database
@@ -144,8 +140,8 @@ const setupGracefulShutdown = (server) => {
    */
   process.on('unhandledRejection', (reason, promise) => {
     logger.error('❌ Unhandled Promise Rejection:', {
-      reason: reason,
-      promise: promise,
+      reason,
+      promise,
     });
     shutdown('UNHANDLED_REJECTION');
   });

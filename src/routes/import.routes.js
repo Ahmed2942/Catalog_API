@@ -1,7 +1,9 @@
-const importRouter = require('express').Router();
+const express = require('express');
+const importController = require('../controllers/import.controller');
+const { uploadFiles } = require('../middleware/fileUpload.middleware');
 
-importRouter.post('/import', (req, res) => {
-  res.json('import api');
-});
+const router = express.Router();
 
-module.exports = importRouter;
+router.post('/', uploadFiles, importController.import);
+
+module.exports = router;

@@ -3,39 +3,29 @@ const logger = require('../config/logger');
 /**
  * Request Logger Middleware
  *
- * Why separate file?
- * - Keeps app.js clean
- * - Easy to modify logging format
- * - Can add more logging logic without cluttering app.js
- * - Reusable in other projects
- *
- * What it logs:
- * - HTTP method (GET, POST, etc.)
- * - Request path
- * - Client IP address
- * - User agent (browser/client info)
- * - Request timestamp
+ * Logs all HTTP requests
  */
 
 const requestLogger = (req, res, next) => {
-  // Log incoming request
-  logger.info('Incoming request', {
-    method: req.method,
-    path: req.path,
-    ip: req.ip,
-    userAgent: req.get('user-agent'),
-    timestamp: new Date().toISOString(),
-  });
-
-  // Optional: Log response when finished
   const startTime = Date.now();
 
+  // Log request
+  logger.http('Incoming request', {
+    event: 'http_request',
+    method: req.method,
+    url: req.url,
+    ip: req.ip,
+    userAgent: req.get('user-agent'),
+  });
+
+  // Capture response
   res.on('finish', () => {
     const duration = Date.now() - startTime;
 
-    logger.info('Request completed', {
+    logger.http('Request completed', {
+      event: 'http_response',
       method: req.method,
-      path: req.path,
+      url: req.url,
       statusCode: res.statusCode,
       duration: `${duration}ms`,
     });
@@ -44,21 +34,5 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-/**
- * Why log on 'finish' event?
- * - Captures response status code
- * - Measures request duration
- * - Helps identify slow endpoints
- *
- * Example log output:
- * {
- *   "level": "info",
- *   "message": "Request completed",
- *   "method": "POST",
- *   "path": "/api/import",
- *   "statusCode": 200,
- *   "duration": "1234ms"
- * }
- */
-
+// Export requestLogger
 module.exports = requestLogger;

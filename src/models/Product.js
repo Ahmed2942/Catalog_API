@@ -25,13 +25,16 @@ const Product = sequelize.define(
     // Primary Key
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      primaryKey: false,
+      allowNull: false,
+      unique: true,
       autoIncrement: true,
     },
 
     // SKU (Stock Keeping Unit) - Unique identifier
     sku: {
       type: DataTypes.STRING(50),
+      primaryKey: true,
       allowNull: false,
       unique: {
         msg: 'SKU must be unique',

@@ -26,7 +26,9 @@ const Family = sequelize.define(
     // Primary Key
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      primaryKey: false,
+      allowNull: false,
+      unique: true,
       autoIncrement: true,
       comment: 'Auto-incrementing primary key',
     },
@@ -34,6 +36,7 @@ const Family = sequelize.define(
     // Family Code (Unique identifier)
     familyCode: {
       type: DataTypes.STRING(50),
+      primaryKey: true,
       allowNull: false,
       unique: {
         msg: 'Family code must be unique', // Custom error message

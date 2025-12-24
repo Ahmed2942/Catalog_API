@@ -1,118 +1,174 @@
 const winston = require('winston');
-const DailyRotateFile = require('winston-daily-rotate-file');
+require('winston-daily-rotate-file');
 const path = require('path');
-require('dotenv').config();
+const { LOG_LEVELS, FILE_UPLOAD } = require('../utils/constants');
 
 /**
- * Logger Configuration using Winston
+ * Logger Configuration
  *
  * Why Winston?
- * - Production-grade logging
- * - Multiple transports (console, file, etc.)
+ * - Structured logging (JSON)
+ * - Multiple transports (console, file)
  * - Log levels (error, warn, info, debug)
- * - Structured logging (JSON format)
- *
- * Log Levels (from highest to lowest priority):
- * - error: Critical errors that need immediate attention
- * - warn: Warning messages (potential issues)
- * - info: General informational messages
- * - http: HTTP request logs
- * - debug: Detailed debug information
+ * - Daily log rotation
+ * - Production-ready
  */
 
-// Custom log format
+// Ensure log directory exists
+const fs = require('fs');
+if (!fs.existsSync(FILE_UPLOAD.LOG_DIR)) {
+  fs.mkdirSync(FILE_UPLOAD.LOG_DIR, { recursive: true });
+}
+
+/**
+ * Custom Log Format
+ *
+ * Why custom format?
+ * - Consistent structure
+ * - Easy to parse
+ * - Includes all required metadata
+ */
 const logFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.errors({ stack: true }), // Include stack traces
-  winston.format.splat(), // String interpolation
-  winston.format.json(), // JSON format for structured logging
+  winston.format.errors({ stack: true }),
+  winston.format.splat(),
+  winston.format.json(),
 );
 
-// Console format (human-readable for development)
+/**
+ * Console Format (for development)
+ *
+ * Why separate console format?
+ * - Human-readable in development
+ * - JSON in production for log aggregation
+ */
 const consoleFormat = winston.format.combine(
-  winston.format.colorize(), // Colorize output
+  winston.format.colorize(),
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.printf(({ timestamp, level, message, ...meta }) => {
+  winston.format.printf(({ timestamp, level, message, ...metadata }) => {
     let msg = `${timestamp} [${level}]: ${message}`;
-
-    // Add metadata if present
-    if (Object.keys(meta).length > 0) {
-      msg += ` ${JSON.stringify(meta)}`;
+    if (Object.keys(metadata).length > 0) {
+      msg += ` ${JSON.stringify(metadata)}`;
     }
-
     return msg;
   }),
 );
 
 /**
- * Daily Rotate File Transport
- *
- * Why rotate logs?
- * - Prevents single file from growing too large
- * - Easier to find specific dates
- * - Automatic cleanup of old logs
- * - Prevents disk space issues
+ * Transport: Daily Rotate File (All Logs)
  */
-const fileRotateTransport = new DailyRotateFile({
-  filename: path.join(process.env.LOG_DIR || './logs', 'app-%DATE%.log'),
+const fileRotateTransport = new winston.transports.DailyRotateFile({
+  filename: path.join(FILE_UPLOAD.LOG_DIR, 'app-%DATE%.log'),
   datePattern: 'YYYY-MM-DD',
-  maxSize: '20m', // Rotate if file exceeds 20MB
-  maxFiles: '14d', // Keep logs for 14 days
-  format: logFormat,
-});
-
-// Error-only log file
-const errorFileTransport = new DailyRotateFile({
-  filename: path.join(process.env.LOG_DIR || './logs', 'error-%DATE%.log'),
-  datePattern: 'YYYY-MM-DD',
-  level: 'error', // Only log errors
   maxSize: '20m',
-  maxFiles: '30d', // Keep error logs longer (30 days)
+  maxFiles: '14d',
   format: logFormat,
 });
 
 /**
- * Create Winston Logger Instance
+ * Transport: Daily Rotate File (Errors Only)
+ */
+const errorFileRotateTransport = new winston.transports.DailyRotateFile({
+  filename: path.join(FILE_UPLOAD.LOG_DIR, 'error-%DATE%.log'),
+  datePattern: 'YYYY-MM-DD',
+  level: 'error',
+  maxSize: '20m',
+  maxFiles: '30d',
+  format: logFormat,
+});
+
+/**
+ * Transport: Console (Development)
+ */
+const consoleTransport = new winston.transports.Console({
+  format: consoleFormat,
+});
+
+/**
+ * Create Logger Instance
  */
 const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: process.env.LOG_LEVEL || LOG_LEVELS.INFO,
   format: logFormat,
-  transports: [fileRotateTransport, errorFileTransport],
-
-  // Handle uncaught exceptions and rejections
-  exceptionHandlers: [
-    new DailyRotateFile({
-      filename: path.join(process.env.LOG_DIR || './logs', 'exceptions-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
-      maxFiles: '30d',
-    }),
-  ],
-
-  rejectionHandlers: [
-    new DailyRotateFile({
-      filename: path.join(process.env.LOG_DIR || './logs', 'rejections-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
-      maxFiles: '30d',
-    }),
-  ],
+  defaultMeta: {
+    service: 'catalog-api',
+    environment: process.env.NODE_ENV || 'development',
+  },
+  transports: [fileRotateTransport, errorFileRotateTransport, consoleTransport],
+  exitOnError: false,
 });
 
 /**
- * Add console transport in development
+ * Helper Methods for Import Logging
  *
- * Why only in development?
- * - Production logs go to files/monitoring services
- * - Console output in production is usually lost
- * - Reduces noise in production environments
+ * Why helper methods?
+ * - Consistent log structure
+ * - Required fields always included
+ * - Easy to use
  */
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new winston.transports.Console({
-      format: consoleFormat,
-    }),
-  );
-}
+
+/**
+ * Log Import Start
+ */
+logger.logImportStart = (metadata) => {
+  logger.info('Import process started', {
+    event: 'import_start',
+    ...metadata,
+  });
+};
+
+/**
+ * Log Import End
+ */
+logger.logImportEnd = (metadata) => {
+  logger.info('Import process completed', {
+    event: 'import_end',
+    ...metadata,
+  });
+};
+
+/**
+ * Log File Summary
+ */
+logger.logFileSummary = (fileType, summary) => {
+  logger.info(`${fileType} file processing summary`, {
+    event: 'file_summary',
+    fileType,
+    ...summary,
+  });
+};
+
+/**
+ * Log Import Warning
+ */
+logger.logImportWarning = (message, metadata) => {
+  logger.warn(message, {
+    event: 'import_warning',
+    ...metadata,
+  });
+};
+
+/**
+ * Log Import Error
+ */
+logger.logImportError = (message, metadata) => {
+  logger.error(message, {
+    event: 'import_error',
+    ...metadata,
+  });
+};
+
+/**
+ * Log Row Processing
+ */
+logger.logRowProcessing = (fileType, rowNumber, operation, metadata = {}) => {
+  logger.debug(`Row ${rowNumber} ${operation}`, {
+    event: 'row_processing',
+    fileType,
+    rowNumber,
+    operation,
+    ...metadata,
+  });
+};
 
 module.exports = logger;

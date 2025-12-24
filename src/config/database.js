@@ -7,8 +7,7 @@ require('dotenv').config();
  * Why separate from initialization?
  * - Configuration is just settings
  * - Initialization is an action (connect, sync)
- * - Separation of concerns
- * - Easier to test
+ * 
  */
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {

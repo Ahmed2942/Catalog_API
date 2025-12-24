@@ -28,3 +28,7 @@ Thumbs.db
 # Build
 dist/
 build/
+
+# Test Folders
+client_test/
+csv_test/
