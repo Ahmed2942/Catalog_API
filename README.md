@@ -44,11 +44,11 @@ git clone URL
 
 ### Running the App
 # Start server
-    ```bash
+    ```
     npm run start
     ```
 # Start server in dev mode
-    ```bash
+    ```
     npm run dev
     ```
 
