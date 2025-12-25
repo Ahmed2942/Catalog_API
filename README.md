@@ -1,6 +1,3 @@
-Here is the updated **README.md** with the API Reference and Usage section fully formatted in Markdown for direct copying:
-
-```markdown
 # Catalog Ingestion & Search API
 
 A robust backend service designed to import, validate, and persist product catalog data from CSV files into a MariaDB database, while providing a filtered search API. This system is built to handle imperfect real-world data with structured logging and automated failure reporting.
@@ -47,9 +44,10 @@ The system follows a modular architecture built with Node.js and Express, utiliz
 ### Running the App
 ```bash
 # Start server
-npm start
+npm run start
 
-```
+# Start server in dev mode
+npm run dev
 
 ---
 
