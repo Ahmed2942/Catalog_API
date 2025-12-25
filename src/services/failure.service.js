@@ -1,10 +1,8 @@
 const fs = require("fs");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
-const csv = require("csv-parser");
 const path = require("path");
 const { DIRS } = require("../utils/constants");
 const logger = require("../config/logger");
-const { timeStamp } = require("console");
 
 /**
  * Failure Service
@@ -26,7 +24,6 @@ ensureFailureDir();
 
 // Write CSV File
 const writeCSV = async (filepath, failures) => {
-
     // Write all records
     const csvWriter = createCsvWriter({
         path: filepath,
