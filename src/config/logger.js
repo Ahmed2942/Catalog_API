@@ -15,7 +15,7 @@ const ensureLogDirectory = async () => {
     try {
         await fs.promises.access(DIRS.LOG_DIR);
     } catch (error) {
-        await (fs.promises.mkdir(DIRS.LOG_DIR), { recursive: true });
+        await fs.promises.mkdir(DIRS.LOG_DIR, { recursive: true });
     }
 };
 

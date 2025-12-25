@@ -30,7 +30,7 @@ The system follows a modular architecture built with Node.js and Express, utiliz
 * **ORM**: Sequelize (MariaDB)
 * **Validation**: Joi
 * **Logging**: Winston
-* **File Handling**: Multer & CSV-Parser
+* **File Handling**: Multer & CSV-Parser & CSV-Writer
 
 ---
 
@@ -49,6 +49,13 @@ The system follows a modular architecture built with Node.js and Express, utiliz
 3.  Configure environment variables by creating a `.env` file based on your database credentials.
 
 ### Running the App
-```bash
+
 # Start server
-npm start
+    ```bash
+    npm run start
+    ```
+
+# Start server in development mode
+    ```bash
+    npm run dev
+    ```
