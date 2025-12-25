@@ -43,14 +43,10 @@ git clone URL
 3.  **Configure environment variables**: Create a `.env` file based on your database credentials (refer to `src/config/database.js`).
 
 ### Running the App
-# Start server
-    ```
+#### Start server
     npm run start
-    ```
-# Start server in dev mode
-    ```
+#### Start server in dev mode
     npm run dev
-    ```
 
 ## 📑 API Reference & Usage
 
