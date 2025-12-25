@@ -16,6 +16,9 @@
       "no-console": "off",
       "consistent-return": "off",
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "no-plusplus": "off",
+      "no-await-in-loop": "off",
+      "no-continue": "off",
       "no-underscore-dangle": "off",
       "import/prefer-default-export": "off",
       "prettier/prettier": ["error", {}, { "usePrettierrc": true }]

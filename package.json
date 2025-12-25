@@ -2,6 +2,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "csv-parser": "^3.2.0",
+    "csv-writer": "^1.6.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "joi": "^18.0.2",
@@ -31,7 +32,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest --coverage --verbose",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --runInBand --watch",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix",
     "format": "prettier --write \"src/**/*.js\"",

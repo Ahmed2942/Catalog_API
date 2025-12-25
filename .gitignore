@@ -8,9 +8,10 @@ node_modules/
 logs/
 *.log
 
-# Uploaded files
+# Folders
 uploads/
 failures/
+tests/
 
 # Test coverage
 coverage/
