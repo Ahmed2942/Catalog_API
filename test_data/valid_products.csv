@@ -1,0 +1,5 @@
+SKU;Name;Family Code;EAN UPC;Vehicle Type
+SKU-10001;Silencio XTR Front Wiper;FAM_WIPERS_001;3276425857629;Passenger car
+SKU-10002;Oil Filter Alfa Romeo 159;FAM_FILTER_002;327452598729;Passenger car
+SKU-10003;Radiator Assembly BMW E90;FAM_COOLING_003;327659216755;Passenger car
+SKU-20001;Generic Wiper;FAM_WIPERS_001;1234567890123;Truck

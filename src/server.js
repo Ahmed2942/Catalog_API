@@ -41,7 +41,7 @@ const startServer = async () => {
                 environment: process.env.NODE_ENV || "development",
                 nodeVersion: process.version,
             });
-            logger.info(`📝 Health check: http://${HOST}:${PORT}/health`);
+            logger.info(`📝 Health check: http://${HOST}:${PORT}/api/health`);
         });
 
         // Step 3: Graceful shutdown handlers

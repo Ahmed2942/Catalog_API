@@ -1,0 +1,5 @@
+Family Code;Family Name;Product Line;Brand;Status
+INVALID_CODE;Missing FAM Prefix;WIPERS;VALEO;ACTIVE
+FAM_WIPERS_001;Missing Line;;VALEO;ACTIVE
+FAM_WIPERS_002;Bad Status;WIPERS;VALEO;PENDING
+;Empty Code;WIPERS;VALEO;ACTIVE

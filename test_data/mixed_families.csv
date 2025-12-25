@@ -1,0 +1,5 @@
+Family Code;Family Name;Product Line;Brand;Status
+FAM_WIPERS_001;Front Wipers Premium;WIPERS;VALEO;ACTIVE
+FAM_FILTER_002;Oil Filters Standard;FILTRATION;VALEO;ACTIVE
+INVALID_CODE;Missing FAM Prefix;WIPERS;VALEO;ACTIVE
+;Empty Code;WIPERS;VALEO;ACTIVE
