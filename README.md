@@ -113,12 +113,15 @@ The system enforces strict data integrity:
 ---
 
 ## 📂 Project Structure
-
-* `src/models`: Database schema definitions (Sequelize).
+* `src/routes`: Express route definitions.
+* `src/controllers`: Request handlers for import and search.
 * `src/services`: Business logic, CSV parsing, and validation.
 * `src/middleware`: File upload handling, 404s, and global error handling.
+* `src/models`: Database schema definitions (Sequelize).
+* `src/config`: Configuration for database and logging.
 * `src/infrastructure`: Database connection and server lifecycle management.
 * `src/utils`: Shared constants and Joi validation schemas.
+
 
 ```
 
