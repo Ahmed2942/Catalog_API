@@ -35,6 +35,7 @@ The system follows a modular architecture built with Node.js and Express, utiliz
 
 ### Installation
 1.  **Clone the repository.**
+git clone URL
 2.  **Install dependencies**:
     ```bash
     npm install
@@ -44,12 +45,13 @@ The system follows a modular architecture built with Node.js and Express, utiliz
 ### Running the App
 ```bash
 # Start server
-npm run start
-
+    ```bash
+    npm run start
+    ```
 # Start server in dev mode
-npm run dev
-
----
+    ```bash
+    npm run dev
+    ```
 
 ## 📑 API Reference & Usage
 
